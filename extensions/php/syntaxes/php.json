@@ -1304,7 +1304,8 @@
           ]
         },
         {
-          "begin": "(?x)\\s*\n\t\t\t\t\t    ((?:(?:final|abstract|public|private|protected|static)\\s+)*)\n\t\t\t\t        (function)\n\t\t\t\t        (?:\\s+|(\\s*&\\s*))\n\t\t\t\t        (?:\n\t\t\t\t            (__(?:call|construct|debugInfo|destruct|get|set|isset|unset|tostring|clone|set_state|sleep|wakeup|autoload|invoke|callStatic))\n\t\t\t\t            |([a-zA-Z0-9_]+)\n\t\t\t\t        )\n\t\t\t\t        \\s*\n\t\t\t\t        (\\()",
+          "comment": "support multiline-define similar to C and PHP 7 return types of both primatives and any class.",
+          "begin": "(?x)(?:^|\\s*\n\t\t\t\t\t    ((?:(?:final|abstract|public|private|protected|static)\\s+)*)\n\t\t\t\t        (function))\n\t\t\t\t        (?:\\s+|(\\s*&\\s*))\n\t\t\t\t        (?:\n\t\t\t\t            (__(?:call|construct|debugInfo|destruct|get|set|isset|unset|tostring|clone|set_state|sleep|wakeup|autoload|invoke|callStatic))\n\t\t\t\t            |([a-zA-Z0-9_]+)\n\t\t\t\t        )\n\t\t\t\t        \\s*\n\t\t\t\t        (\\()",
           "beginCaptures": {
             "1": {
               "patterns": [
@@ -1331,10 +1332,13 @@
             }
           },
           "contentName": "meta.function.arguments.php",
-          "end": "(\\))",
+          "end": "(\\))(?:\\s*:\\s*([a-zA-Z0-9_\\\\]+))?",
           "endCaptures": {
             "1": {
               "name": "punctuation.definition.parameters.end.php"
+            },
+            "2": {
+              "name": "storage.type.php"
             }
           },
           "name": "meta.function.php",
@@ -1431,6 +1435,15 @@
             }
           },
           "match": "(?i)\\s*\\(\\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\\s*\\)"
+        },
+        {
+          "captures": {
+            "1": {
+              "name": "storage.type.php"
+            }
+          },
+          "match": "^\\s*([a-zA-Z0-9_\\\\]+)(?=\\s*{)",
+          "comment": "third-line return types: allow catching anything, since return types can be primatives or any class you care to invent."
         },
         {
           "match": "(?i)\\b(array|real|double|float|int(eger)?|bool(ean)?|string|class|clone|var|function|interface|trait|parent|self|object)\\b",

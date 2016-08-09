@@ -1332,7 +1332,7 @@
             }
           },
           "contentName": "meta.function.arguments.php",
-          "end": "(\\))(?:\\s*:\\s*([a-zA-Z0-9_\\\\]+))?",
+          "end": "(?x) (\\)) # end function.\n (?: \\s*:\\s*([a-zA-Z0-9_\\\\]+ | \\s*:))? # optional function return type.\n",
           "endCaptures": {
             "1": {
               "name": "punctuation.definition.parameters.end.php"
